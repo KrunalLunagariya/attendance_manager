@@ -190,3 +190,5 @@ class RegsiterPageDesign extends State<RegsiterPage> {
     );
   }
 }
+
+//Krunal
