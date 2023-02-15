@@ -1,4 +1,4 @@
-import 'package:attendance_manager/all_string.dart';
+import '../strings.dart';
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 

@@ -4,15 +4,15 @@ import 'package:flutter/material.dart';
 import 'employee_punch_page.dart';
 import 'employee_report_page.dart';
 import 'employee_Profile_page.dart';
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class PunchPage extends StatefulWidget {
+  const PunchPage({super.key});
 
 
   @override
-  MyHomePageState createState() => MyHomePageState();
+  PunchPageState createState() => PunchPageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class PunchPageState extends State<PunchPage> {
   int page = 0;
   final screens=[
     const EmployeePunchPage(),

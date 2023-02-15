@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class APIConstants {
-  static String baseURL = "https://reqres.in/api/";
+  static String baseURL = "http://18.183.157.20:3000/api/v1/";
 }
 
 class ApiServices{
@@ -17,15 +17,17 @@ class ApiServices{
           parameters));
       print('Response status: ${response.statusCode}');
       print('Response body: ${response.data}');
+
       final data = response.data;
-      return LoginApiResponse(token: data["token"]);
+      return LoginApiResponse(token: data["token"], error: data["error"]);
+      //return LoginApiResponse(token: data["token"]);
     } catch(e) {
       print(e);
     }
     return null;
   }
   Future doLogin(String email, String password) async{
-    return await doAPIPOSTRequest(path: "login", parameters: {"email": email, "password": password});
+    return await doAPIPOSTRequest(path: "user/login", parameters: {"email": email, "password": password});
   }
   Future doRegister(String email, String password) async{
     return await doAPIPOSTRequest(path: "register", parameters: {"email": email, "password": password});

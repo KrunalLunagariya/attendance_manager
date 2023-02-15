@@ -1,23 +1,27 @@
 //ignore_for_file: no_leading_underscores_for_local_identifiers, avoid_print, library_private_types_in_public_api, use_build_context_synchronously
+import 'dart:async';
+
 import 'package:attendance_manager/api_manager.dart';
+import 'package:attendance_manager/shared_preference_key.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../app_manage.dart';
-import '../all_string.dart';
+import '../strings.dart';
 import '../databaseHandler/db_helper.dart';
 import 'home_screen.dart';
 import 'register_page.dart';
 import '../routs.dart';
 
-class Home extends StatefulWidget{
-  const Home({super.key});
+class LoginPage extends StatefulWidget{
+  const LoginPage({super.key});
   @override
-  Loginpage createState() => Loginpage();
+  LoginPageState createState() => LoginPageState();
 }
 
-class Loginpage extends State<Home> {
+class LoginPageState extends State<LoginPage> {
   // key for form
   final formKey = GlobalKey<FormState>();
   final controllerEmail = TextEditingController();
@@ -28,56 +32,68 @@ class Loginpage extends State<Home> {
   double screenHeight = 0;
   double screenWidth = 0;
 
-  @override
-  initState() {
-    super.initState();
-    dbHelper = DbHelper();
-  }
-
-  login() async {
-    String email = controllerEmail.text;
-    String passwd = controllerPassword.text;
-
-    if(email.isEmpty){
-      Fluttertoast.showToast(msg: "Emial field is Required", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-    }else if(passwd.isEmpty){
-      Fluttertoast.showToast(msg: "Password field is Required", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-    }else{
-      await dbHelper.getLoginUser(email, passwd).then((userData) {
-        if(userData != null) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => MyHomePage()),
-                  (Route<dynamic> route) => false);
-        } else {
-          Fluttertoast.showToast(msg: "Error: User not found", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-        }
-      }).catchError((error) {
-        print(error);
-        Fluttertoast.showToast(msg: "Error: Login Fail", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-      });
-    }
-  }
-
-  //MARK:API Call
-  // callLoginApi() async{
-  //   EasyLoading.show(status: 'loading...');
-  //   var response =await  service.doLogin(emailText.text, passwordText.text);
-  //   if (response != null){
-  //     EasyLoading.dismiss();
-  //     Navigator.of(context)
-  //         .pushNamedAndRemoveUntil(Routes.login,(Route<dynamic> route) => false);
-  //     // const snackBar = SnackBar(content: Text('Login Done'));
-  //     // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //   }
-  //   else {
-  //     EasyLoading.dismiss();
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //       content: Text('Login Not Succesfull!'),
-  //     ));
-  //   }
-  //   print(response);
+  // @override
+  // initState() {
+  //   super.initState();
+  //   dbHelper = DbHelper();
   // }
+  //
+  // login() async {
+  //   String email = controllerEmail.text;
+  //   String passwd = controllerPassword.text;
+  //
+  //   if(email.isEmpty){
+  //     Fluttertoast.showToast(msg: "Email field is Required", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //   }else if(passwd.isEmpty){
+  //     Fluttertoast.showToast(msg: "Password field is Required", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //   }else{
+  //     await dbHelper.getLoginUser(email, passwd).then((userData) {
+  //       if(userData != null) {
+  //         Navigator.pushAndRemoveUntil(
+  //             context,
+  //             MaterialPageRoute(builder: (_) => MyHomePage()),
+  //                 (Route<dynamic> route) => false);
+  //       } else {
+  //         Fluttertoast.showToast(msg: "Error: User not found", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //       }
+  //     }).catchError((error) {
+  //       print(error);
+  //       Fluttertoast.showToast(msg: "Error: Login Fail", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //     });
+  //   }
+  // }
+  //MARK:API Call
+
+  void initState(){
+    super.initState();
+    whereToGo();
+  }
+
+  callLoginApi() async{
+    EasyLoading.show(status: 'loading...');
+    var response =await  service.doLogin(controllerEmail.text, controllerPassword.text);
+    if (response != null){
+      EasyLoading.dismiss();
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil('/PunchPage', (Route<dynamic> route) => false);
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          const PunchPage()), (Route<dynamic> route) => false);
+      // Navigator.of(context)
+      //     .pushNamedAndRemoveUntil(Routes.login,(Route<dynamic> route) => false);
+      // const snackBar = SnackBar(content: Text('Login Done'));
+      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+    else {
+      EasyLoading.dismiss();
+      Fluttertoast.showToast(msg: "Error: User not found",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          textColor: Colors.white,
+          fontSize: 16.0);
+    }
+    print(response);
+  }
 
 
   @override
@@ -159,7 +175,7 @@ class Loginpage extends State<Home> {
                     validator: (value){
                       if(value!.isEmpty){
                         return "* Required";
-                      }else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+                      }else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
                         return 'Please Enter Correct Email';
                       }else{
                         return null;
@@ -208,14 +224,17 @@ class Loginpage extends State<Home> {
                 child: MaterialButton(
                   minWidth: screenWidth/1, // <-- Your width
                   height: 40,
-                  onPressed: (){
-                    //if(formKey.currentState!.validate()){}
-                    //callLoginApi();
+                  onPressed: () async {
+                    var sharedPref = await SharedPreferences.getInstance();
+                    sharedPref.setBool(SharedPrefrenceKey.sessionKey, true);
+                    var isLoggedIn = sharedPref.getBool(SharedPrefrenceKey.sessionKey);
+                    print(isLoggedIn);
+                    if(formKey.currentState!.validate()){}
+                    callLoginApi();
                     // Navigator.push(
                     //   context,
                     //   MaterialPageRoute(builder: (context) =>  const MyHomePage()),
                     // );
-                    login();
                   },
                   shape: const StadiumBorder(),
                   color: AppColor.deepPurple,
@@ -310,5 +329,16 @@ class Loginpage extends State<Home> {
         ),
       ),
       );
+  }
+
+  void whereToGo() async {
+
+    var sharedPref = await SharedPreferences.getInstance();
+    var isLoggedIn = sharedPref.getBool(SharedPrefrenceKey.sessionKey);
+
+      if(isLoggedIn != null && isLoggedIn){
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          const PunchPage()), (Route<dynamic> route) => false);
+      }
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
-import '../all_string.dart';
+import '../strings.dart';
 
 class EmployeePunchPage extends StatefulWidget {
   const EmployeePunchPage({Key? key}) : super(key: key);

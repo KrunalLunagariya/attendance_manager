@@ -1,13 +1,16 @@
 // ignore_for_file: file_names
 import 'package:attendance_manager/app_manage.dart';
+import 'package:attendance_manager/shared_preference_key.dart';
 import 'package:flutter/material.dart';
-import '../all_string.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../strings.dart';
 import 'employee_change_password_page.dart';
 import 'employee_holiday_list_page.dart';
 import 'employee_leave_history_page.dart';
 import 'employee_profile_attendancereport_page.dart';
 import '../profile_menu.dart';
 import '../profile_pic.dart';
+import 'login_page.dart';
 
 class EmployeeProfilePage extends StatelessWidget {
   const EmployeeProfilePage({super.key});
@@ -106,7 +109,12 @@ class EmployeeProfilePage extends StatelessWidget {
           ),
           ProfileMenu(
             text: ProfileMenuString.singOut,
-            press: () {},
+            press: () async {
+              var sharedPref = await SharedPreferences.getInstance();
+              sharedPref.setBool(SharedPrefrenceKey.sessionKey, false);
+              Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              const LoginPage()), (Route<dynamic> route) => false);
+            },
           ),
            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),

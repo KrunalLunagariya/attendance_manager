@@ -16,11 +16,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Home(),
+      home: const LoginPage(),
       //theme: ThemeData(primarySwatch: Colors.deepPurple),
       builder: EasyLoading.init(),
       routes: {
-        Routes.register: (context) => const MyHomePage(),
+        Routes.register: (context) => const PunchPage(),
         Routes.firstscreen: (context) => const MyApp(),
       },
     );

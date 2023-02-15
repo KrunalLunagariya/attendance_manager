@@ -4,7 +4,7 @@ import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../all_string.dart';
+import '../strings.dart';
 
 class LeaveRequestPage extends StatefulWidget {
   const LeaveRequestPage({super.key});

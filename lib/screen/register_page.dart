@@ -27,44 +27,50 @@ class RegsiterPageDesign extends State<RegsiterPage> {
    final conPassword = TextEditingController();
    final conConfirmPassword = TextEditingController();
    final service = ApiServices();
-   var dbHelper = DbHelper();
+  // var dbHelper = DbHelper();
    double screenHeight = 0;
    double screenWidth = 0;
 
-   @override
-   void initState() {
-     super.initState();
-     dbHelper = DbHelper();
-   }
 
-  signUp() async {
-     String uname = conUserName.text;
-     String emial = conEmail.text;
-     String passwd = conPassword.text;
-     String cpasswd = conConfirmPassword.text;
-     // print("password");
-     // print("${passwd} $cpasswd");
-     // print("${passwd != cpasswd}");
-     // print("${formKey.currentState!.validate()}");
-     if(formKey.currentState!.validate()){
-        if(passwd != cpasswd){
-          Fluttertoast.showToast(msg: "Password Mismatch", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-        }else {
-          formKey.currentState?.save();
+  // ##### for register sqflite database ###### //
 
-          UserModel uModel = UserModel(uname, emial, passwd);
-          await dbHelper.saveData(uModel).then((userData) {
-            Fluttertoast.showToast(msg: "Successfully Saved", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 16.0);
 
-            Navigator.push(
-                context, MaterialPageRoute(builder: (_) => Home()));
-          }).catchError((error) {
-            print(error.toString());
-            Fluttertoast.showToast(msg: "Error: Data Save Fail", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
-          });
-        }
-     }
-   }
+  //  @override
+  //  void initState() {
+  //    super.initState();
+  //    dbHelper = DbHelper();
+  //  }
+  //
+  // signUp() async {
+  //    String uname = conUserName.text;
+  //    String email = conEmail.text;
+  //    String passwd = conPassword.text;
+  //    String cpasswd = conConfirmPassword.text;
+  //    // print("password");
+  //    // print("${passwd} $cpasswd");
+  //    // print("${passwd != cpasswd}");
+  //    // print("${formKey.currentState!.validate()}");
+  //    if(formKey.currentState!.validate()){
+  //       if(passwd != cpasswd){
+  //         Fluttertoast.showToast(msg: "Password Mismatch", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //       }else {
+  //         formKey.currentState?.save();
+  //
+  //         UserModel uModel = UserModel(uname, email, passwd);
+  //         await dbHelper.saveData(uModel).then((userData) {
+  //           Fluttertoast.showToast(msg: "Successfully Saved", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.green, textColor: Colors.white, fontSize: 16.0);
+  //
+  //           Navigator.push(
+  //               context, MaterialPageRoute(builder: (_) => LoginPage()));
+  //         }).catchError((error) {
+  //           print(error.toString());
+  //           Fluttertoast.showToast(msg: "Error: Data Save Fail", toastLength: Toast.LENGTH_SHORT, gravity: ToastGravity.CENTER, timeInSecForIosWeb: 1, backgroundColor: Colors.red, textColor: Colors.white, fontSize: 16.0);
+  //         });
+  //       }
+  //    }
+  //  }
+
+
    //MARK:API Call
    // callRegisterApi(BuildContext context) async{
    //   EasyLoading.show(status: 'loading...');
@@ -141,7 +147,6 @@ class RegsiterPageDesign extends State<RegsiterPage> {
                 minWidth: screenWidth/1, // <-- Your width
                 height: 40,
                 onPressed: (){
-                 signUp();
                   // if(formKey.currentState!.validate()){
                   //   const snackBar = SnackBar(content: Text('Register Done'));
                   //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
@@ -177,7 +182,7 @@ class RegsiterPageDesign extends State<RegsiterPage> {
                         ..onTap = () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const Home()),
+                            MaterialPageRoute(builder: (context) => const LoginPage()),
                           );
                         }
                 ),
