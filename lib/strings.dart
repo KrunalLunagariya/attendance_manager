@@ -7,7 +7,9 @@ class LocalisationString {
   static String lblToDate= "To Date";
   static String lblName= "Name";
   static String lblConfirmPassword= "Confirm Password";
-  static String lblLoginWelcomeMessage = "Welcome back you\'ve been missed!";
+  static String lblMobileNumber= "Enter Mobile Number";
+  static String lblEnterOtp= "Enter OTP";
+  static String lblLoginWelcomeMessage = "Welcome back you've been missed!";
 
 }
 
@@ -30,6 +32,7 @@ class AppbarTitleString{
   static String editProfile = "Edit Profile";
   static String leaveRequest = "Leave Request";
   static String report = "Report";
+  static String forgotPassword = "Forgot Password";
   static String myProfile = "My Profile";
   static String employeeName= "Employee Name";
 
@@ -37,6 +40,9 @@ class AppbarTitleString{
 
 class ButtonString{
   static String changePassword = "Change Password";
+  static String resetPassword = "Reset Password";
+  static String getOtp = "Get OTP";
+  static String submitOtp = "Submit OTP";
   static String sendLeaveRequest = "Send Leave Request";
 
 }

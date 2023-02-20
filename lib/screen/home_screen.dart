@@ -7,7 +7,6 @@ import 'employee_Profile_page.dart';
 class PunchPage extends StatefulWidget {
   const PunchPage({super.key});
 
-
   @override
   PunchPageState createState() => PunchPageState();
 }
@@ -27,7 +26,7 @@ class PunchPageState extends State<PunchPage> {
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
         animationCurve: Curves.easeInOut,
-        animationDuration: const Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 400),
         buttonBackgroundColor: AppColor.deepPurple,
         color: AppColor.white,
         backgroundColor: Colors.transparent,

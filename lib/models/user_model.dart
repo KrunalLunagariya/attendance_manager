@@ -1,28 +1,4 @@
 class UserModel {
-  String? statusCode;
-  String? message;
-  Data? data;
-
-  UserModel({this.statusCode, this.message, this.data});
-
-  UserModel.fromJson(Map<String, dynamic> json) {
-    statusCode = json['statusCode'];
-    message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['statusCode'] = this.statusCode;
-    data['message'] = this.message;
-    if (this.data != null) {
-      data['data'] = this.data?.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
   int? id;
   String? userName;
   String? firstName;
@@ -52,7 +28,7 @@ class Data {
   String? profilePicFullPath;
   String? accessToken;
 
-  Data(
+  UserModel(
       {this.id,
         this.userName,
         this.firstName,
@@ -82,7 +58,7 @@ class Data {
         this.profilePicFullPath,
         this.accessToken});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     userName = json['userName'];
     firstName = json['firstName'];
@@ -114,35 +90,35 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['userName'] = this.userName;
-    data['firstName'] = this.firstName;
-    data['lastName'] = this.lastName;
-    data['email'] = this.email;
-    data['mobileNumber'] = this.mobileNumber;
-    data['gender'] = this.gender;
-    data['companyName'] = this.companyName;
-    data['branchId'] = this.branchId;
-    data['departmentId'] = this.departmentId;
-    data['employeeShiftId'] = this.employeeShiftId;
-    data['workType'] = this.workType;
-    data['userType'] = this.userType;
-    data['salary'] = this.salary;
-    data['joiningDate'] = this.joiningDate;
-    data['status'] = this.status;
-    data['address'] = this.address;
-    data['cityId'] = this.cityId;
-    data['stateId'] = this.stateId;
-    data['countryId'] = this.countryId;
-    data['roleId'] = this.roleId;
-    data['profilePic'] = this.profilePic;
-    data['forgetPasswordKey'] = this.forgetPasswordKey;
-    data['updatedBy'] = this.updatedBy;
-    data['createdAt'] = this.createdAt;
-    data['updatedAt'] = this.updatedAt;
-    data['profilePicFullPath'] = this.profilePicFullPath;
-    data['accessToken'] = this.accessToken;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['userName'] = userName;
+    data['firstName'] = firstName;
+    data['lastName'] = lastName;
+    data['email'] = email;
+    data['mobileNumber'] = mobileNumber;
+    data['gender'] = gender;
+    data['companyName'] = companyName;
+    data['branchId'] = branchId;
+    data['departmentId'] = departmentId;
+    data['employeeShiftId'] = employeeShiftId;
+    data['workType'] = workType;
+    data['userType'] = userType;
+    data['salary'] = salary;
+    data['joiningDate'] = joiningDate;
+    data['status'] = status;
+    data['address'] = address;
+    data['cityId'] = cityId;
+    data['stateId'] = stateId;
+    data['countryId'] = countryId;
+    data['roleId'] = roleId;
+    data['profilePic'] = profilePic;
+    data['forgetPasswordKey'] = forgetPasswordKey;
+    data['updatedBy'] = updatedBy;
+    data['createdAt'] = createdAt;
+    data['updatedAt'] = updatedAt;
+    data['profilePicFullPath'] = profilePicFullPath;
+    data['accessToken'] = accessToken;
     return data;
   }
 }

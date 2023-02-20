@@ -1,16 +1,10 @@
 // ignore_for_file: use_build_context_synchronously, avoid_print, must_be_immutable
 import 'package:attendance_manager/app_manage.dart';
-import 'package:attendance_manager/models/user_model.dart';
-import 'package:attendance_manager/utils/utils.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:attendance_manager/api_manager.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../custom_text_field.dart';
-import '../databaseHandler/db_helper.dart';
 import 'login_page.dart';
-import '../routs.dart';
 
 class RegsiterPage extends StatefulWidget {
   const RegsiterPage({Key? key}) : super(key: key);
@@ -147,12 +141,12 @@ class RegsiterPageDesign extends State<RegsiterPage> {
                 minWidth: screenWidth/1, // <-- Your width
                 height: 40,
                 onPressed: (){
-                  // if(formKey.currentState!.validate()){
-                  //   const snackBar = SnackBar(content: Text('Register Done'));
-                  //   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  //   // var showSnackBar = _scaffoldKey.currentState!.showSnackBar(snackBar);
-                  // }
-                  // callRegisterApi(context);
+                  if(formKey.currentState!.validate()){
+                    const snackBar = SnackBar(content: Text('Register Done'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    // var showSnackBar = _scaffoldKey.currentState!.showSnackBar(snackBar);
+                  }
+                  //callRegisterApi(context);
                 },
                 shape: const StadiumBorder(),
                 color: AppColor.deepPurple,

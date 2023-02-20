@@ -1,8 +1,7 @@
 // ignore_for_file: file_names
 import 'package:attendance_manager/app_manage.dart';
-import 'package:attendance_manager/shared_preference_key.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../session_manager.dart';
 import '../strings.dart';
 import 'employee_change_password_page.dart';
 import 'employee_holiday_list_page.dart';
@@ -110,8 +109,9 @@ class EmployeeProfilePage extends StatelessWidget {
           ProfileMenu(
             text: ProfileMenuString.singOut,
             press: () async {
-              var sharedPref = await SharedPreferences.getInstance();
-              sharedPref.setBool(SharedPrefrenceKey.sessionKey, false);
+              // var sharedPref = await SharedPreferences.getInstance();
+              // sharedPref.setBool(SharePreferenceKey.sessionKey as String, false);
+              SessionManager.logoutUser();
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
               const LoginPage()), (Route<dynamic> route) => false);
             },

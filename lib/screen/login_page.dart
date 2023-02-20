@@ -1,7 +1,9 @@
-//ignore_for_file: no_leading_underscores_for_local_identifiers, avoid_print, library_private_types_in_public_api, use_build_context_synchronously
-import 'dart:async';
+// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables, avoid_print
 
 import 'package:attendance_manager/api_manager.dart';
+import 'package:attendance_manager/models/base_model.dart';
+import 'package:attendance_manager/models/user_model.dart';
+import 'package:attendance_manager/session_manager.dart';
 import 'package:attendance_manager/shared_preference_key.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../app_manage.dart';
 import '../strings.dart';
-import '../databaseHandler/db_helper.dart';
+import 'employee_forgot_password_page.dart';
 import 'home_screen.dart';
 import 'register_page.dart';
 import '../routs.dart';
@@ -32,12 +34,7 @@ class LoginPageState extends State<LoginPage> {
   double screenHeight = 0;
   double screenWidth = 0;
 
-  // @override
-  // initState() {
-  //   super.initState();
-  //   dbHelper = DbHelper();
-  // }
-  //
+
   // login() async {
   //   String email = controllerEmail.text;
   //   String passwd = controllerPassword.text;
@@ -64,22 +61,41 @@ class LoginPageState extends State<LoginPage> {
   // }
   //MARK:API Call
 
-  void initState(){
+  // void initState(){
+  //   super.initState();
+  //   //whereToGo();
+  // }
+
+  @override
+  initState() {
     super.initState();
-    whereToGo();
+    checkUser();
+    // dbHelper = DbHelper();
+  }
+
+  void checkUser() async {
+    var userInfo = await SessionManager.getUserInfo();
+    if (userInfo != null){
+      Navigator.pushReplacementNamed(context,  Routes.homescreen);
+    }
   }
 
   callLoginApi() async{
     EasyLoading.show(status: 'loading...');
-    var response =await  service.doLogin(controllerEmail.text, controllerPassword.text);
+    BaseModel? response =await  service.doLogin(controllerEmail.text, controllerPassword.text);
+    EasyLoading.dismiss();
+
     if (response != null){
-      EasyLoading.dismiss();
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil('/PunchPage', (Route<dynamic> route) => false);
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          const PunchPage()), (Route<dynamic> route) => false);
-      // Navigator.of(context)
-      //     .pushNamedAndRemoveUntil(Routes.login,(Route<dynamic> route) => false);
+      //print(response);
+      UserModel userModel = UserModel.fromJson(response.data);
+      await SessionManager.saveUserInfo(userModel);
+      var storedUser = await SessionManager.getUserInfo();
+      //print(storedUser?.firstName);
+
+      Navigator.pushReplacementNamed(context,  Routes.homescreen);
+
+      // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+      //     const PunchPage()), (Route<dynamic> route) => false);
       // const snackBar = SnackBar(content: Text('Login Done'));
       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
@@ -98,7 +114,7 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+    final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
     screenHeight = MediaQuery.of(context).size.height;
     screenWidth = MediaQuery.of(context).size.width;
     return  Scaffold(
@@ -106,7 +122,7 @@ class LoginPageState extends State<LoginPage> {
       // backgroundColor: Colors.transparent,
       //   elevation: 0,
       // ),
-      key: _scaffoldKey,
+      key: scaffoldKey,
       resizeToAvoidBottomInset : false,
       //backgroundColor: Colors.grey[300],
       //**************** LinearGradient *****************
@@ -175,7 +191,7 @@ class LoginPageState extends State<LoginPage> {
                     validator: (value){
                       if(value!.isEmpty){
                         return "* Required";
-                      }else if(!RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value)){
+                      }else if(!RegExp(r"^[a-zA-Z.a-zA-Z\d!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z\d]+\.[a-zA-Z]+").hasMatch(value)){
                         return 'Please Enter Correct Email';
                       }else{
                         return null;
@@ -225,16 +241,9 @@ class LoginPageState extends State<LoginPage> {
                   minWidth: screenWidth/1, // <-- Your width
                   height: 40,
                   onPressed: () async {
-                    var sharedPref = await SharedPreferences.getInstance();
-                    sharedPref.setBool(SharedPrefrenceKey.sessionKey, true);
-                    var isLoggedIn = sharedPref.getBool(SharedPrefrenceKey.sessionKey);
-                    print(isLoggedIn);
-                    if(formKey.currentState!.validate()){}
-                    callLoginApi();
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(builder: (context) =>  const MyHomePage()),
-                    // );
+                    if(formKey.currentState!.validate()){
+                      callLoginApi();
+                    }
                   },
                   shape: const StadiumBorder(),
                   color: AppColor.deepPurple,
@@ -242,19 +251,27 @@ class LoginPageState extends State<LoginPage> {
                   child:const Text('Login'),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      'Forgot Password?',
-                      style: AppTextStyle.blackfont14,
-                    ),
-                  ],
+                 Padding(
+                   padding: const EdgeInsets.all(8.0),
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          textStyle: const TextStyle(fontSize: 15),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const ForgotPasswordPage()),
+                          );
+                        },
+                        child: const Text('Forgot Password?'),
+                      ),
+                    ],
                 ),
-              ),
-              const SizedBox(height: 20),
+                 ),
+              const SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
@@ -312,7 +329,7 @@ class LoginPageState extends State<LoginPage> {
                         ..onTap = () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => RegsiterPage()),
+                            MaterialPageRoute(builder: (context) => const RegsiterPage()),
                           );
                         }),
                 ]),
@@ -334,7 +351,7 @@ class LoginPageState extends State<LoginPage> {
   void whereToGo() async {
 
     var sharedPref = await SharedPreferences.getInstance();
-    var isLoggedIn = sharedPref.getBool(SharedPrefrenceKey.sessionKey);
+    var isLoggedIn = sharedPref.getBool(SharePreferenceKey.sessionKey as String);
 
       if(isLoggedIn != null && isLoggedIn){
           Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>

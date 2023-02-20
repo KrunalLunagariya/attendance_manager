@@ -12,7 +12,7 @@ class CounterPage extends StatelessWidget {
       body: BlocBuilder<CounterCubit, int>(
         builder: (_, count) {
           return Center(
-            child: Text('$count', style: Theme.of(context).textTheme.headline1),
+            child: Text('$count', style: Theme.of(context).textTheme.displayLarge),
           );
         },
       ),

@@ -1,5 +1,5 @@
 class Routes {
-  static String login = "/login";
-  static String register = "/register";
-  static String firstscreen = "/firstscreen";
+  static String homescreen = "/homescreen";
+  static String loginscreen = "/loginscreen";
+  static String splashScreen = "/splash_screen";
 }

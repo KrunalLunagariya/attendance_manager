@@ -3,7 +3,7 @@
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
+import 'login_page.dart';
 import '../strings.dart';
 
 class EmployeeReportPage extends StatefulWidget {
@@ -99,9 +99,12 @@ class Attendance extends State<EmployeeReportPage>{
                       color: AppColor.grey200,
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      //mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children:  [
-                        Icon(Icons.calendar_month_rounded, size: 24 ,color:AppColor.blue,),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 30),
+                          child: Icon(Icons.calendar_month_rounded, size: 24 ,color:AppColor.blue,),
+                        ),
                         Row(
                           children: [
                             OutlinedButton(
@@ -115,8 +118,11 @@ class Attendance extends State<EmployeeReportPage>{
                             ),
                               ],
                         ),
-                        const Text('-- To --',style: TextStyle(fontSize: 20),),
-                        Icon(Icons.calendar_month_rounded, size: 24 ,color:AppColor.blue,),
+                        const Padding(
+                          padding: EdgeInsets.only(right: 30,left: 10),
+                          child: Text('-- To --',style: TextStyle(fontSize: 20),),
+                        ),
+                           Icon(Icons.calendar_month_rounded, size: 24 ,color:AppColor.blue,),
                         OutlinedButton(
                           style: OutlinedButton.styleFrom(
                             side: BorderSide(color: AppColor.transparent),
@@ -145,20 +151,76 @@ class Attendance extends State<EmployeeReportPage>{
                       ],
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
-                    child: Row(
-                      children:  [
-                        Text.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(text: ' --- Working Hours Details ---',
-                            style: AppTextStyle.boldfont25,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
+                            children:[
+                               const Padding( padding: EdgeInsets.only(left: 10,top: 5),
+                              child: Text("Summary ",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 20),
+                              ),
+                               ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: Text(" till ${DateTime.now().day.toString()}"),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 9),
+                                child: Text(DateFormat(' - MMMM - yyyy ').format(DateTime.now())),
                               )
                             ],
                           ),
-                        )
-                      ],
-                    ),
-                  ),
+                      Divider(
+                        thickness: 0.8,
+                        color: AppColor.grey,
+                      ),
+                          const SizedBox(height: 5),
+                          Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children:const [
+                          Text("PRESENT DAYS",style: TextStyle(color: Colors.grey),),
+                          Text("WORK HOURS",style: TextStyle(color: Colors.grey),),
+                          Text("ABSENT DAYS",style: TextStyle(color: Colors.grey),)
+                        ],
+                      ),
+
+                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: const[
+
+                            Text("0 Days",style: TextStyle(color: Colors.green,fontSize: 18),),
+                            Text("00h 00m",style: TextStyle(color: Colors.green,fontSize: 18),),
+                            Text("13days",style: TextStyle(color: Colors.red,fontSize: 18),)
+                          ],
+                        ),
+                          const SizedBox(height: 15),
+                          Row(
+                          children:const [
+                               Padding(
+                                 padding: EdgeInsets.only(left: 10),
+                                 child: Text("DAYS WORKED",style: TextStyle(color: Colors.grey),),
+                               ),
+                               Padding(
+                                 padding: EdgeInsets.only(left: 80),
+                                 child: Text("HRS WORKED",style: TextStyle(color: Colors.grey)),
+                               ),
+                          ],
+                      ),
+                         Row(
+                          children: const[
+                            Padding(
+                              padding: EdgeInsets.only(left: 30),
+                              child: Text("2 Days",style: TextStyle(color: Colors.deepPurple,fontSize: 18),),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: 110),
+                              child: Text("00h 00m",style: TextStyle(color: Colors.deepPurple,fontSize: 18),),
+                            )
+                          ],),
+
+                        ],
+                      ),
+                 ),
                   const SizedBox(height: 10),
                   Column(
                       children: users.map((userone){

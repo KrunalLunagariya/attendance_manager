@@ -1,3 +1,5 @@
-class SharedPrefrenceKey {
-  static String sessionKey = "session_key";
+
+enum SharePreferenceKey {
+   sessionKey,
+   userInfo,
 }

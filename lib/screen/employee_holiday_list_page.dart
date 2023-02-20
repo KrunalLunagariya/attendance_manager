@@ -69,14 +69,14 @@ class HolidayPageDesign extends State<HolidayPage> {
                       height: double.maxFinite,
                     ),
                   title:Padding(
-                    padding: EdgeInsets.only(left: 20.0),
+                    padding: const EdgeInsets.only(left: 20.0),
                     child: Text(_foundUsers[index]['name'], style:AppTextStyle.blackBoldfont
                       ),
                   ),
                     subtitle: Padding(
-                      padding: EdgeInsets.only(left: 20.0),
+                      padding: const EdgeInsets.only(left: 20.0),
                       child: Text(
-                          '${_foundUsers[index]["date"].toString()}',style: TextStyle(
+                          _foundUsers[index]["date"].toString(),style: TextStyle(
                           color:AppColor.black
                       )),
                     ),
