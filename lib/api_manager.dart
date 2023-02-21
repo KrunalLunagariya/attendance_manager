@@ -2,7 +2,6 @@
 
 import 'dart:convert';
 import 'package:attendance_manager/models/base_model.dart';
-import 'package:attendance_manager/models/user_model.dart';
 import 'package:dio/dio.dart';
 
 class APIConstants {

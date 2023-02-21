@@ -35,12 +35,12 @@ class Attendance extends State<EmployeePunchPage> {
 
 
   Future<UserModel?> getData()async{
-    await Future.delayed(Duration(seconds: 2), () {
+    await Future.delayed(const Duration(seconds: 2), () {
     firstName = firstName;
     return firstName;
 
-
     });
+    return null;
   }
 
     @override

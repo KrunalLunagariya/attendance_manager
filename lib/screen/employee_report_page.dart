@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, unnecessary_brace_in_string_interps
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -127,7 +127,7 @@ class Attendance extends State<EmployeeReportPage>{
                                        ),
                                      ),
                                    );
-                                 };
+                                 }
                                })
                            ],
                          )

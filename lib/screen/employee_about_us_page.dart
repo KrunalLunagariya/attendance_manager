@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, deprecated_member_use, avoid_print
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,8 +37,8 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                 child: Text('Our Goals', style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
               ),
               Padding(
-                padding: EdgeInsets.only(right: 10,left: 20),
-                child: Text(LocalisationString.paragraph,style: TextStyle(fontSize: 15),),
+                padding: const EdgeInsets.only(right: 10,left: 20),
+                child: Text(LocalisationString.paragraph,style: const TextStyle(fontSize: 15),),
               ),
 
                  const Padding(
@@ -49,7 +49,7 @@ class AboutUs extends State<EmployeeAboutUsPage>{
               Container(
                 width: 300,
                 height: screenHeight / 2.5,
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(15),
                   child: Image.asset('lib/images/ravibhai.png'),
@@ -81,9 +81,9 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                         Row(
                           children: [
                     Padding(
-                      padding: EdgeInsets.only(left: 30,top: 10),
+                      padding: const EdgeInsets.only(left: 30,top: 10),
                       child:IconButton(
-                        icon: Icon(Icons.email_rounded,color: Colors.deepPurple,size: 40,),
+                        icon: const Icon(Icons.email_rounded,color: Colors.deepPurple,size: 40,),
                         alignment: Alignment.topRight,
                         onPressed: () async {
                           final Uri params = Uri(
@@ -143,7 +143,7 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                         Row(
                             children:[
                               Padding(
-                                padding: EdgeInsets.only(left: 25,top: 10),
+                                padding: const EdgeInsets.only(left: 25,top: 10),
                                 child:IconButton(
                                   icon:  const Icon(Icons.add_call,color: Colors.deepPurple,size: 40,),
                                   alignment: Alignment.topRight,
@@ -204,7 +204,7 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                         Row(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 30,top: 10),
+                                padding: const EdgeInsets.only(left: 30,top: 10),
                                 child: IconButton(
                                   icon:  const Icon(Icons.location_on,color: Colors.deepPurple,size: 40,),
                                   alignment: Alignment.topRight,
