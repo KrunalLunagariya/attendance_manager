@@ -1,6 +1,8 @@
 // ignore_for_file: file_names
 import 'package:attendance_manager/app_manage.dart';
+import 'package:attendance_manager/screen/employee_about_us_page.dart';
 import 'package:flutter/material.dart';
+import '../models/user_model.dart';
 import '../session_manager.dart';
 import '../strings.dart';
 import 'employee_change_password_page.dart';
@@ -11,8 +13,23 @@ import '../profile_menu.dart';
 import '../profile_pic.dart';
 import 'login_page.dart';
 
-class EmployeeProfilePage extends StatelessWidget {
-  const EmployeeProfilePage({super.key});
+class EmployeeProfilePage extends StatefulWidget {
+  const EmployeeProfilePage({Key? key}) : super(key: key);
+  @override
+  EmployeeProfile createState() => EmployeeProfile();
+
+}
+
+class EmployeeProfile extends State<EmployeeProfilePage>{
+  String firstName = "";
+  String lastName = "";
+
+  Future<UserModel?> getData()async{
+      var userDetails = await SessionManager.getUserInfo();
+      firstName = userDetails?.firstName ?? '';
+      lastName = userDetails?.lastName ?? '';
+      return UserModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +42,12 @@ class EmployeeProfilePage extends StatelessWidget {
           ),
         ),
       body: SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(vertical: 20),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const ProfilePic(),
-          const SizedBox(height: 20),
+          const SizedBox(height: 5),
           ProfileMenu(
             text: ProfileMenuString.attendanceReports,
             press: () {
@@ -107,6 +124,22 @@ class EmployeeProfilePage extends StatelessWidget {
             ),
           ),
           ProfileMenu(
+            text: ProfileMenuString.aboutUs,
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  const EmployeeAboutUsPage()),
+              );
+            },
+          ),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 0.2,
+              color: AppColor.black,
+            ),
+          ),
+          ProfileMenu(
             text: ProfileMenuString.singOut,
             press: () async {
               // var sharedPref = await SharedPreferences.getInstance();
@@ -116,7 +149,7 @@ class EmployeeProfilePage extends StatelessWidget {
               const LoginPage()), (Route<dynamic> route) => false);
             },
           ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Divider(
               thickness: 0.2,

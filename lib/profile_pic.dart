@@ -1,4 +1,7 @@
+import 'package:attendance_manager/session_manager.dart';
 import 'package:flutter/material.dart';
+import 'app_manage.dart';
+import 'models/user_model.dart';
 import 'screen/employee_edit_profile.dart';
 
 class ProfilePic extends StatefulWidget {
@@ -13,8 +16,18 @@ class ProfilePic extends StatefulWidget {
 
 class _ProfilePicState extends State<ProfilePic> {
   double screenHeight = 0;
-
   double screenWidth = 0;
+  String firstName = "";
+  String lastName = "";
+  String email = "";
+
+  Future<UserModel?> getData()async{
+      var userDetails = await SessionManager.getUserInfo();
+      firstName = userDetails?.firstName ?? '';
+      lastName = userDetails?.lastName ?? '';
+      email = userDetails?.email ?? '';
+      return UserModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,30 +51,38 @@ class _ProfilePicState extends State<ProfilePic> {
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
-                      Text(
-                          "Krunal Patel",
-                          style: TextStyle(
-                            fontFamily: "NexaRegular",
-                            fontSize: 20,
-                            color: Colors.black,
-                          ),
-                        ),
+                    children: [
+                      FutureBuilder(
+                          future: getData(),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState == ConnectionState.waiting) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            } else {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8),
+                                child: Text.rich(
+                                  TextSpan(
+                                    children: <TextSpan>[
+                                      TextSpan(text:'${firstName} ',
+                                          style: AppTextStyle.boldfont20),
+                                      TextSpan(text:'${lastName}\n',
+                                          style: AppTextStyle.boldfont20),
+                                      TextSpan(text: email,
+                                      style: AppTextStyle.grayfont12 ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            };
+                          }),
 
-                      Text(
-                          "lunagariyakrunal26@gmail.com",
-                          style: TextStyle(
-                            fontFamily: "NexaRegular",
-                            fontSize: 12,
-                            color: Colors.grey,
-
-                        ),
-                      ),
                     ],
                   ),
                 ),
                 Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.only(top: 8),
                     child: IconButton(
                       icon:  const Icon(Icons.edit,color: Colors.blue),
                       alignment: Alignment.topRight,

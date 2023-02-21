@@ -10,6 +10,7 @@ class LocalisationString {
   static String lblMobileNumber= "Enter Mobile Number";
   static String lblEnterOtp= "Enter OTP";
   static String lblLoginWelcomeMessage = "Welcome back you've been missed!";
+  static String paragraph = "Our motto is to deliver finest it business solutions to our customers. We have team of creative thinkers, professional developers and experienced managers who always ready to bring something innovative for our clients.\nOffer a perfect sky to brand for building their presence in this digital world with our visionary service.";
 
 }
 
@@ -34,6 +35,7 @@ class AppbarTitleString{
   static String report = "Report";
   static String forgotPassword = "Forgot Password";
   static String myProfile = "My Profile";
+  static String aboutUs = "About Us";
   static String employeeName= "Employee Name";
 
 }
@@ -59,6 +61,7 @@ class ProfileMenuString{
   static String salary = "Salary";
   static String changePassword = "Change Password";
   static String singOut = "Sign out";
+  static String aboutUs = "About us";
 }
 
 class SlideButtonString{

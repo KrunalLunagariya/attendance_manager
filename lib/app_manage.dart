@@ -19,6 +19,7 @@ class AppTextStyle {
   static TextStyle blackfontMedium17 = const TextStyle(fontSize: 17);
   static TextStyle boldfont20 = const TextStyle(fontWeight: FontWeight.bold,fontSize: 20);
   static TextStyle blackfont20 = const TextStyle(fontSize: 20,color: Colors.black);
+  static TextStyle grayfont12 = const TextStyle(fontSize: 12,color: Colors.grey);
   static TextStyle blackfont24 = const TextStyle(fontSize: 24,color: Colors.black);
   static TextStyle blackfont14 = const TextStyle(fontSize: 14,color: Colors.black);
   static TextStyle blackfont15 = const TextStyle(fontSize: 15,color: Colors.black);

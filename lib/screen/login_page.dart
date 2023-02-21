@@ -89,8 +89,7 @@ class LoginPageState extends State<LoginPage> {
       //print(response);
       UserModel userModel = UserModel.fromJson(response.data);
       await SessionManager.saveUserInfo(userModel);
-      var storedUser = await SessionManager.getUserInfo();
-      //print(storedUser?.firstName);
+      //var storedUser = await SessionManager.getUserInfo();
 
       Navigator.pushReplacementNamed(context,  Routes.homescreen);
 

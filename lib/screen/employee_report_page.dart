@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_unnecessary_containers
-
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'login_page.dart';
+import '../models/user_model.dart';
+import '../session_manager.dart';
 import '../strings.dart';
 
 class EmployeeReportPage extends StatefulWidget {
@@ -20,6 +20,9 @@ class User{
 class Attendance extends State<EmployeeReportPage>{
   double screenHeight = 0;
   double screenWidth = 0;
+  String firstName = "";
+  String lastName = "";
+
   List<User> users = [
     User(date: "17-Jan-2023", day: "Monday"),
     User(date:"16-Jan-2023", day: "Tuesday"),
@@ -42,6 +45,25 @@ class Attendance extends State<EmployeeReportPage>{
         dateTime = value!;
       });
     });
+  }
+
+  @override
+  initState() {
+    super.initState();
+    //getUserDetails();
+  }
+
+  // void getUserDetails() async {
+  //   var userDetails = await SessionManager.getUserInfo();
+  //   firstName = userDetails?.firstName ?? '';
+  //   print(firstName);
+  // }
+
+  Future<UserModel?> getData()async{
+      var userDetails = await SessionManager.getUserInfo();
+      firstName = userDetails?.firstName ?? '';
+      lastName = userDetails?.lastName ?? '';
+      return UserModel();
   }
 
   @override
@@ -82,13 +104,33 @@ class Attendance extends State<EmployeeReportPage>{
                           },
                           icon: const Icon(Icons.person_pin,size: 40,),
                         ),
-                         Text.rich(
-                          TextSpan(
-                            children: <TextSpan>[
-                              TextSpan(text: 'employee name', style:AppTextStyle.boldfont20),
-                            ],
-                          ),
-                        )
+                         Column(
+                           children: [
+                             FutureBuilder(
+                               future: getData(),
+                               builder: (context, snapshot) {
+                                 if (snapshot.connectionState == ConnectionState.waiting) {
+                                   return const Center(
+                                     child: CircularProgressIndicator(),
+                                   );
+                                 } else {
+                                   return Padding(
+                                     padding: const EdgeInsets.only(top: 20),
+                                     child: Text.rich(
+                                       TextSpan(
+                                         children: <TextSpan>[
+                                           TextSpan(text:'${firstName} ',
+                                               style: AppTextStyle.boldfont20),
+                                           TextSpan(text:lastName,
+                                               style: AppTextStyle.boldfont20),
+                                         ],
+                                       ),
+                                     ),
+                                   );
+                                 };
+                               })
+                           ],
+                         )
                       ],
                     ),
                   ),
