@@ -58,21 +58,14 @@ class AboutUs extends State<EmployeeAboutUsPage>{
               Row(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 2,right: 10,left: 12),
+                    margin: const EdgeInsets.only (top: 2,right: 10,left: 12),
                     height: screenHeight / 6.5,
                     width: screenWidth / 3.5,
                     decoration: BoxDecoration(
                       color: AppColor.white,
                       border: Border.all(
-                          color: Colors.black,
+                          color: Colors.grey,
                           width: 1),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColor.grey,
-                          blurRadius: 5.0,
-                          offset: const Offset(2,2),
-                        )
-                      ],
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Column(
@@ -88,7 +81,7 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                         onPressed: () async {
                           final Uri params = Uri(
                               scheme: 'mailto',
-                              path: "klunagariya916@rku.ac.in"
+                              path: "sales@evenscript.com"
                           );
                           var url = params.toString();
                           if (await canLaunch(url)) {
@@ -126,15 +119,8 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                     decoration: BoxDecoration(
                       color: AppColor.white,
                       border: Border.all(
-                          color: Colors.black,
+                          color: Colors.grey,
                           width: 1),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColor.grey,
-                          blurRadius: 5.0,
-                          offset: const Offset(2,2),
-                        )
-                      ],
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Column(
@@ -187,15 +173,8 @@ class AboutUs extends State<EmployeeAboutUsPage>{
                     decoration: BoxDecoration(
                       color: AppColor.white,
                       border: Border.all(
-                          color: Colors.black,
+                          color: Colors.grey,
                           width: 1),
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppColor.grey,
-                          blurRadius: 5.0,
-                          offset: const Offset(2,2),
-                        )
-                      ],
                       borderRadius: const BorderRadius.all(Radius.circular(20)),
                     ),
                     child: Column(

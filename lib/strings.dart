@@ -36,6 +36,8 @@ class AppbarTitleString{
   static String forgotPassword = "Forgot Password";
   static String myProfile = "My Profile";
   static String aboutUs = "About Us";
+  static String privacyPolicy = "Privacy Policy";
+  static String termsCondition = "Terms & Condition";
   static String employeeName= "Employee Name";
 
 }
@@ -62,6 +64,8 @@ class ProfileMenuString{
   static String changePassword = "Change Password";
   static String singOut = "Sign out";
   static String aboutUs = "About us";
+  static String privacyPolicy = "Privacy Policy";
+  static String termsCondition = "Terms & Condition";
 }
 
 class SlideButtonString{

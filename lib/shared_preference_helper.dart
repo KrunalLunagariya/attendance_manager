@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SharedPreferenceHelper{
   static Future saveString(String data, SharePreferenceKey sharedPreferenceKey) async{
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-   var status = await sharedPreferences.setString(sharedPreferenceKey.toString(), data);
+   return await sharedPreferences.setString(sharedPreferenceKey.toString(), data);
   }
 
   static Future<String?> getString(SharePreferenceKey sharedPreferenceKey ) async{

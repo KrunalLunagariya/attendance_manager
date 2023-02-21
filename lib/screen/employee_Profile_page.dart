@@ -2,15 +2,18 @@
 import 'package:attendance_manager/app_manage.dart';
 import 'package:attendance_manager/screen/employee_about_us_page.dart';
 import 'package:flutter/material.dart';
+import '../alert_dialog.dart';
 import '../models/user_model.dart';
 import '../session_manager.dart';
 import '../strings.dart';
 import 'employee_change_password_page.dart';
 import 'employee_holiday_list_page.dart';
 import 'employee_leave_history_page.dart';
+import 'employee_privacy_policy_page.dart';
 import 'employee_profile_attendancereport_page.dart';
 import '../profile_menu.dart';
 import '../profile_pic.dart';
+import 'employee_terms_condition_page.dart';
 import 'login_page.dart';
 
 class EmployeeProfilePage extends StatefulWidget {
@@ -23,6 +26,7 @@ class EmployeeProfilePage extends StatefulWidget {
 class EmployeeProfile extends State<EmployeeProfilePage>{
   String firstName = "";
   String lastName = "";
+  bool tappedYes = false;
 
   Future<UserModel?> getData()async{
       var userDetails = await SessionManager.getUserInfo();
@@ -140,13 +144,47 @@ class EmployeeProfile extends State<EmployeeProfilePage>{
             ),
           ),
           ProfileMenu(
+            text: ProfileMenuString.termsCondition,
+            press: ()  {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  const TermsAndConditionPage()),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 0.2,
+              color: AppColor.black,
+            ),
+          ),
+          ProfileMenu(
+            text: ProfileMenuString.privacyPolicy,
+            press: ()  {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) =>  const PrivacyPolicyPage()),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Divider(
+              thickness: 0.2,
+              color: AppColor.black,
+            ),
+          ),
+          ProfileMenu(
             text: ProfileMenuString.singOut,
             press: () async {
-              // var sharedPref = await SharedPreferences.getInstance();
-              // sharedPref.setBool(SharePreferenceKey.sessionKey as String, false);
+            final action =await AlertDialogs.yesCancelDialog(context, 'Logout' , 'are you sure for Logout your account ?');
+            if (action == DialogsAction.yes){
+              setState(() => tappedYes = true);
               SessionManager.logoutUser();
               Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
               const LoginPage()), (Route<dynamic> route) => false);
+            }
             },
           ),
           Padding(
