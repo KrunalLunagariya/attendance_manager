@@ -2,6 +2,7 @@
 import 'package:attendance_manager/app_manage.dart';
 import 'package:attendance_manager/screen/employee_about_us_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import '../alert_dialog.dart';
 import '../models/user_model.dart';
 import '../session_manager.dart';

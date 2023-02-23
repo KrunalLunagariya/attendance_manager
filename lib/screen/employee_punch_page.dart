@@ -1,11 +1,15 @@
+// ignore_for_file: unnecessary_string_interpolations, unnecessary_brace_in_string_interps
+
 import 'package:attendance_manager/app_manage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:slide_to_act/slide_to_act.dart';
-
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import '../models/user_model.dart';
 import '../session_manager.dart';
 import '../strings.dart';
+import 'camerascreen.dart';
 
 class EmployeePunchPage extends StatefulWidget {
   const EmployeePunchPage({Key? key}) : super(key: key);
@@ -19,33 +23,60 @@ class Attendance extends State<EmployeePunchPage> {
   double screenHeight = 0;
   double screenWidth = 0;
   String firstName = "";
-
+  String lastName = "";
+  String location ='Null, Press Button';
+  String Address = 'search';
 
   @override
-  initState() {
+  void initState() {
     super.initState();
-    getUserDetails();
+    _getGeoLocationPosition();
   }
 
-  void getUserDetails() async {
-    var userDetails = await SessionManager.getUserInfo();
-    firstName = userDetails?.firstName ?? '';
-    //print(firstName);
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+
+    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
+  Future<void> GetAddressFromLatLong(Position position)async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    Address = '${place.street}, ${place.subLocality},${place.subLocality}, ${place.locality},\n ${place.postalCode}, ${place.country}';
+    setState(()  {
+    });
+  }
 
   Future<UserModel?> getData()async{
-    await Future.delayed(const Duration(seconds: 2), () {
-    firstName = firstName;
-    return firstName;
-
-    });
-    return null;
+    var userDetails = await SessionManager.getUserInfo();
+    firstName = userDetails?.firstName ?? '';
+    lastName = userDetails?.lastName ?? '';
+    return UserModel();
   }
 
     @override
     Widget build(BuildContext context) {
-
       screenHeight = MediaQuery.of(context).size.height;
       screenWidth = MediaQuery.of(context).size.width;
 
@@ -56,18 +87,22 @@ class Attendance extends State<EmployeePunchPage> {
           ),
           backgroundColor: AppColor.white,
           centerTitle: true,
-          title: Text(firstName,
+          title: Text('${firstName} \n ${lastName}',
             style: TextStyle(
                 color: AppColor.black
             ),),
           leading: IconButton(
-            onPressed: () {},
+              onPressed: () {},
             icon: const Icon(Icons.home),
             color: AppColor.black,
           ),
           actions: [
             IconButton(
-              onPressed: () {},
+                onPressed: () async {
+                  Position position = await _getGeoLocationPosition();
+                  //location ='Lat: ${position.latitude} , Long: ${position.longitude}';
+                  GetAddressFromLatLong(position);
+                },
               icon: const Icon(Icons.more_vert),
               color: AppColor.black,
             ),
@@ -76,42 +111,25 @@ class Attendance extends State<EmployeePunchPage> {
 
         body: SingleChildScrollView(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                   margin: const EdgeInsets.only(top: 2),
-                  height: screenHeight / 2,
-                  decoration: BoxDecoration(
-                    color: AppColor.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColor.black26,
-                        blurRadius: 10,
-                        offset: const Offset(2, 2),
-                      )
-                    ],
-                    borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                          child: Column(
-                            children: [
-                              Text(
-                                "Camera part",
-                                style: AppTextStyle.blackfont20,
-                              )
-                            ],
-                          )
-                      ),
-                    ],
-                  )
+                  height: screenHeight / 1.8,
+                  width: screenWidth,
+                  child: const CameraScreen(),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 80),
+                padding: const EdgeInsets.only(left: 38,top: 15),
                 child: Row(
                     children: [
+                       const Padding(
+                         padding: EdgeInsets.only(right: 10),
+                         child: Icon(
+                          Icons.watch_later_outlined,
+                          color: Colors.deepPurple,
+                          size: 20.0,),
+                       ),
                       Container(
                         alignment: Alignment.bottomCenter,
                         child: RichText(
@@ -153,13 +171,30 @@ class Attendance extends State<EmployeePunchPage> {
                               ),
                             );
                           }
-                      )
-                    ]),
+                      ),
+                      ]),
               ),
-
               Container(
                 width: 330,
-                margin: const EdgeInsets.only(top: 30),
+                margin: const EdgeInsets.only(left:35,top: 10),
+                    child: Row(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(right: 8),
+                          child: Icon(
+                            Icons.location_on,
+                            color: Colors.deepPurple,
+                            size: 25.0,),
+                        ),
+                        Text('${Address}',
+                          style: AppTextStyle.blackfontMedium17,
+                        )
+                      ],
+                    )
+              ),
+              Container(
+                width: 330,
+                margin: const EdgeInsets.only(top: 15),
                 child: Builder(
                     builder: (context) {
                       final GlobalKey<SlideActionState> key = GlobalKey();

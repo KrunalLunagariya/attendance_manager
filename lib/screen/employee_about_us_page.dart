@@ -25,6 +25,9 @@ class AboutUs extends State<EmployeeAboutUsPage>{
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(
+            color: Colors.black, //change your color here
+          ),
           title: Text(AppbarTitleString.aboutUs,
             style: AppTextStyle.blackBoldfont,
           ),
