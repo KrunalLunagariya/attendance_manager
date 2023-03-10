@@ -90,11 +90,9 @@ class LoginPageState extends State<LoginPage> {
       UserModel userModel = UserModel.fromJson(response.data);
       await SessionManager.saveUserInfo(userModel);
       //var storedUser = await SessionManager.getUserInfo();
-
       Navigator.pushReplacementNamed(context,  Routes.homescreen);
-
       // Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-      //     const PunchPage()), (Route<dynamic> route) => false);
+      // const PunchPage()), (Route<dynamic> route) => false);
       // const snackBar = SnackBar(content: Text('Login Done'));
       // ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }

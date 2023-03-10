@@ -53,12 +53,6 @@ class Attendance extends State<EmployeeReportPage>{
     //getUserDetails();
   }
 
-  // void getUserDetails() async {
-  //   var userDetails = await SessionManager.getUserInfo();
-  //   firstName = userDetails?.firstName ?? '';
-  //   print(firstName);
-  // }
-
   Future<UserModel?> getData()async{
       var userDetails = await SessionManager.getUserInfo();
       firstName = userDetails?.firstName ?? '';
