@@ -140,14 +140,13 @@ class LoginPageState extends State<LoginPage> {
       // ),
 
         //*************
-
         body :Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("lib/images/bg.png"),
                 fit: BoxFit.cover
             ),
-          ),        //padding: const EdgeInsets.only(left: 5, right: 5),
+          ),   //padding: const EdgeInsets.only(left: 5, right: 5),
         child: Form(
           key: formKey, //key for form
           child:Column(
@@ -237,10 +236,14 @@ class LoginPageState extends State<LoginPage> {
                 child: MaterialButton(
                   minWidth: screenWidth/1, // <-- Your width
                   height: 40,
-                  onPressed: () async {
-                    if(formKey.currentState!.validate()){
-                      callLoginApi();
-                    }
+                  onPressed: () {
+                    // if(formKey.currentState!.validate()){
+                    //   callLoginApi();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PunchPage()),
+                    );
                   },
                   shape: const StadiumBorder(),
                   color: AppColor.deepPurple,

@@ -175,8 +175,8 @@ class Attendance extends State<EmployeePunchPage> {
                       ]),
               ),
               Container(
-                width: 330,
-                margin: const EdgeInsets.only(left:35,top: 10),
+                width: 355,
+                margin: const EdgeInsets.only(left:5,top: 10),
                     child: Row(
                       children: [
                         const Padding(

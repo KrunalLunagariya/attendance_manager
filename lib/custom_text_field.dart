@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 class CustomTextField extends StatelessWidget {
   const CustomTextField({Key? key, this.controller, this.errorText, this.prefixIcon, this.hintText, this.obscureText, this.onChanged}) : super(key: key);
   final Widget? prefixIcon;
